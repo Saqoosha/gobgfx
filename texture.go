@@ -27,3 +27,7 @@ func CreateTexture2D(width, height int, hasMips bool, numLayers int, format Text
 	return Texture{h: h}
 }
 
+// DestroyTexture destroys texture
+func DestroyTexture(t Texture) {
+	C.bgfx_destroy_texture(t.h)
+}
