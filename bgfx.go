@@ -119,6 +119,7 @@ func SetViewClear(view ViewID, flags ClearFlag, rgba uint32, depth float32, sten
 	C.bgfx_set_view_clear(C.ushort(view), C.ushort(flags), C.uint(rgba), C.float(depth), C.uchar(stencil))
 }
 
+// Touch bgfx
 func Touch(id ViewID) {
 	C.bgfx_touch(C.ushort(id))
 }
