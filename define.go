@@ -30,8 +30,7 @@ const (
 	StateDepthTestShift    = C.BGFX_STATE_DEPTH_TEST_SHIFT
 	StateDepthTestMask     = C.BGFX_STATE_DEPTH_TEST_MASK
 
-	/// Use BGFX_STATE_BLEND_FUNC(_src, _dst) or BGFX_STATE_BLEND_FUNC_SEPARATE(_srcRGB, _dstRGB, _srcA, _dstA)
-	/// helper macros.
+	/// Use MakeBlendFuncState(_src, _dst) or MakeBlendFuncSeparateState(_srcRGB, _dstRGB, _srcA, _dstA) helper method.
 	StateBlendZero        = C.BGFX_STATE_BLEND_ZERO
 	StateBlendOne         = C.BGFX_STATE_BLEND_ONE
 	StateBlendSrcColor    = C.BGFX_STATE_BLEND_SRC_COLOR
@@ -96,6 +95,16 @@ const (
 	StateNone = C.BGFX_STATE_NONE
 	StateMask = C.BGFX_STATE_MASK
 )
+
+// MakeBlendFuncState makes state value for blend func
+func MakeBlendFuncState(src, dst State) State {
+	return MakeBlendFuncSeparateState(src, dst, src, dst)
+}
+
+// MakeBlendFuncSeparateState makes state value for blend func color and alpha separately
+func MakeBlendFuncSeparateState(srcRGB, dstRGB, srcA, dstA State) State {
+	return State((uint64(srcRGB) | (uint64(dstRGB) << 4) | ((uint64(srcA) | (uint64(dstA) << 4)) << 8)))
+}
 
 // ClearFlag type
 type ClearFlag uint16
