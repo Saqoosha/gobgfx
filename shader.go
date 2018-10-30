@@ -59,6 +59,11 @@ func DestroyUniform(u Uniform) {
 	C.bgfx_destroy_uniform(u.h)
 }
 
+// SetUniformVec4
+func SetUniformVec4(u Uniform, value [4]float32, num int) {
+	C.bgfx_set_uniform(u.h, unsafe.Pointer(&value[0]), C.uint16_t(num))
+}
+
 // SetTexture sets texture
 func SetTexture(stage uint8, sampler Uniform, texture Texture) {
 	C.bgfx_set_texture(C.uint8_t(stage), sampler.h, texture.h, C.UINT32_MAX)
