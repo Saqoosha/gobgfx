@@ -59,7 +59,7 @@ func DestroyUniform(u Uniform) {
 	C.bgfx_destroy_uniform(u.h)
 }
 
-// SetUniformVec4
+// SetUniformVec4 sets uniform with float32 array
 func SetUniformVec4(u Uniform, value [4]float32, num int) {
 	C.bgfx_set_uniform(u.h, unsafe.Pointer(&value[0]), C.uint16_t(num))
 }

@@ -4,6 +4,7 @@ package bgfx
 import "C"
 import (
 	"errors"
+	"math"
 	"reflect"
 	"unsafe"
 )
@@ -60,8 +61,8 @@ type VertexBuffer struct {
 	h C.bgfx_vertex_buffer_handle_t
 }
 
-// CreateVertexBuffer creates vertex buffer
-func CreateVertexBuffer(slice interface{}, decl VertexDecl) VertexBuffer {
+// NewVertexBuffer creates vertex buffer
+func NewVertexBuffer(slice interface{}, decl VertexDecl) VertexBuffer {
 	val := reflect.ValueOf(slice)
 	if val.Kind() != reflect.Slice {
 		panic(errors.New("bgfx: expected slice"))
@@ -77,14 +78,67 @@ func CreateVertexBuffer(slice interface{}, decl VertexDecl) VertexBuffer {
 	}
 }
 
-// DestroyVertexBuffer destroys vertex buffer
-func DestroyVertexBuffer(vb VertexBuffer) {
+// Destroy vertex buffer
+func (vb *VertexBuffer) Destroy() {
 	C.bgfx_destroy_vertex_buffer(vb.h)
 }
 
-// SetVertexBuffer sets vertex buffer
-func SetVertexBuffer(stream uint8, vb VertexBuffer) {
+// Set vertex buffer
+func (vb *VertexBuffer) Set(stream int8) {
 	C.bgfx_set_vertex_buffer(C.uchar(stream), vb.h, 0, C.UINT32_MAX)
+}
+
+// DynamicVertexBuffer type
+type DynamicVertexBuffer struct {
+	h C.bgfx_dynamic_vertex_buffer_handle_t
+}
+
+// NewDynamicVertexBuffer creates emmpty dynamic vertex buffer
+func NewDynamicVertexBuffer(num int, decl VertexDecl) DynamicVertexBuffer {
+	return DynamicVertexBuffer{
+		h: C.bgfx_create_dynamic_vertex_buffer(
+			C.uint32_t(num),
+			&decl.decl,
+			C.ushort(BufferNone),
+		),
+	}
+}
+
+// NewDynamicVertexBufferMem creates dynamic vertex buffer and initialize it.
+func NewDynamicVertexBufferMem(mem interface{}, decl VertexDecl) DynamicVertexBuffer {
+	val := reflect.ValueOf(mem)
+	if val.Kind() != reflect.Slice {
+		panic(errors.New("bgfx: expected slice"))
+	}
+	size := uintptr(val.Len()) * val.Type().Elem().Size()
+	return DynamicVertexBuffer{
+		h: C.bgfx_create_dynamic_vertex_buffer_mem(
+			// to keep things simple for now, we'll just copy
+			C.bgfx_copy(unsafe.Pointer(val.Pointer()), C.uint32_t(size)),
+			&decl.decl,
+			C.ushort(BufferNone),
+		),
+	}
+}
+
+// Update dynamic vertex buffer.
+func (b *DynamicVertexBuffer) Update(mem interface{}) {
+	val := reflect.ValueOf(mem)
+	if val.Kind() != reflect.Slice {
+		panic(errors.New("bgfx: expected slice"))
+	}
+	size := uintptr(val.Len()) * val.Type().Elem().Size()
+	C.bgfx_update_dynamic_vertex_buffer(b.h, 0, C.bgfx_copy(unsafe.Pointer(val.Pointer()), C.uint32_t(size)))
+}
+
+// Set vertex buffer for draw primitive
+func (b *DynamicVertexBuffer) Set(stream int8) {
+	C.bgfx_set_dynamic_vertex_buffer(C.uint8_t(stream), b.h, 0, C.uint32_t(math.MaxUint32))
+}
+
+// Destroy buffer
+func (b *DynamicVertexBuffer) Destroy() {
+	C.bgfx_destroy_dynamic_vertex_buffer(b.h)
 }
 
 // IndexBuffer type
@@ -92,8 +146,8 @@ type IndexBuffer struct {
 	h C.bgfx_index_buffer_handle_t
 }
 
-// CreateIndexBuffer creates index buffer
-func CreateIndexBuffer(data []uint16) IndexBuffer {
+// NewIndexBuffer creates index buffer
+func NewIndexBuffer(data []uint16) IndexBuffer {
 	return IndexBuffer{
 		h: C.bgfx_create_index_buffer(
 			// to keep things simple for now, we'll just copy
@@ -103,12 +157,12 @@ func CreateIndexBuffer(data []uint16) IndexBuffer {
 	}
 }
 
-// DestroyIndexBuffer destroys index buffer
-func DestroyIndexBuffer(ib IndexBuffer) {
+// Destroy destroys index buffer
+func (ib *IndexBuffer) Destroy() {
 	C.bgfx_destroy_index_buffer(ib.h)
 }
 
-// SetIndexBuffer sets index buffer
-func SetIndexBuffer(ib IndexBuffer) {
+// Set index buffer
+func (ib *IndexBuffer) Set() {
 	C.bgfx_set_index_buffer(ib.h, 0, C.UINT32_MAX)
 }
