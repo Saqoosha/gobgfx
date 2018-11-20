@@ -24,7 +24,7 @@ type Config struct {
 	VendorID, DeviceID uint16
 	Debug, Profile     bool
 
-	NativeDisplayType, NativeWindowHandle, Context, BackBuffer, BackBufferDS unsafe.Pointer
+	NativeDisplayType, NativeWindowHandle, Context, BackBuffer, BackBufferDS uintptr
 
 	Format                          TextureFormat
 	Width, Height, Reset            uint32
@@ -40,11 +40,11 @@ func Init(params Config) {
 	init.deviceId = C.uint16_t(params.DeviceID)
 	init.debug = C._Bool(params.Debug)
 	init.profile = C._Bool(params.Profile)
-	init.platformData.ndt = params.NativeDisplayType
-	init.platformData.nwh = params.NativeWindowHandle
-	init.platformData.context = params.Context
-	init.platformData.backBuffer = params.BackBuffer
-	init.platformData.backBufferDS = params.BackBufferDS
+	init.platformData.ndt = unsafe.Pointer(params.NativeDisplayType)
+	init.platformData.nwh = unsafe.Pointer(params.NativeWindowHandle)
+	init.platformData.context = unsafe.Pointer(params.Context)
+	init.platformData.backBuffer = unsafe.Pointer(params.BackBuffer)
+	init.platformData.backBufferDS = unsafe.Pointer(params.BackBufferDS)
 	init.resolution.format = C.bgfx_texture_format_t(params.Format)
 	init.resolution.width = C.uint32_t(params.Width)
 	init.resolution.height = C.uint32_t(params.Height)
