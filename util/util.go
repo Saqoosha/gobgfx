@@ -3,6 +3,7 @@ package util
 import (
 	"image"
 	"image/draw"
+	"log"
 
 	// for JPEG/PNG format
 	_ "image/jpeg"
@@ -19,12 +20,14 @@ import (
 func LoadProgram(vspath, fspath string) bgfx.Program {
 	data, err := ioutil.ReadFile(vspath)
 	if err != nil {
+		log.Printf("error: %+v", err)
 		return bgfx.Program{}
 	}
 	vs := bgfx.CreateShader(data)
 
 	data, err = ioutil.ReadFile(fspath)
 	if err != nil {
+		log.Printf("error: %+v", err)
 		return bgfx.Program{}
 	}
 	fs := bgfx.CreateShader(data)
