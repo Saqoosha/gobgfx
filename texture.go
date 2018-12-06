@@ -9,8 +9,8 @@ type Texture struct {
 	h C.bgfx_texture_handle_t
 }
 
-// CreateTexture2D creates Texture from raw 2D bytes
-func CreateTexture2D(width, height int, hasMips bool, numLayers int, format TextureFormat, flags TextureFlag, data []byte) Texture {
+// NewTexture2D creates Texture from raw 2D bytes
+func NewTexture2D(width, height int, hasMips bool, numLayers int, format TextureFormat, flags TextureFlag, data []byte) *Texture {
 	var mem *C.bgfx_memory_t
 	if data != nil {
 		mem = C.bgfx_copy(unsafe.Pointer(&data[0]), C.uint32_t(len(data)))
@@ -24,10 +24,10 @@ func CreateTexture2D(width, height int, hasMips bool, numLayers int, format Text
 		C.ulonglong(flags),
 		mem,
 	)
-	return Texture{h: h}
+	return &Texture{h: h}
 }
 
-// DestroyTexture destroys texture
-func DestroyTexture(t Texture) {
+// Destroy texture
+func (t *Texture) Destroy() {
 	C.bgfx_destroy_texture(t.h)
 }

@@ -36,7 +36,7 @@ func LoadProgram(vspath, fspath string) bgfx.Program {
 }
 
 // LoadTexture loads texture from a image file
-func LoadTexture(path string) bgfx.Texture {
+func LoadTexture(path string) *bgfx.Texture {
 	file, err := os.Open(path)
 	if err != nil {
 		panic(err)
@@ -55,5 +55,5 @@ func LoadTexture(path string) bgfx.Texture {
 	}
 	rgba := image.NewRGBA(data.Bounds())
 	draw.Draw(rgba, rgba.Bounds(), data, image.Pt(0, 0), draw.Src)
-	return bgfx.CreateTexture2D(config.Width, config.Height, false, 1, bgfx.TextureFormatRGBA8, bgfx.TextureNone|bgfx.SamplerNone, rgba.Pix)
+	return bgfx.NewTexture2D(config.Width, config.Height, false, 1, bgfx.TextureFormatRGBA8, bgfx.TextureNone|bgfx.SamplerNone, rgba.Pix)
 }

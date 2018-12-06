@@ -65,6 +65,6 @@ func SetUniformVec4(u Uniform, value [4]float32, num int) {
 }
 
 // SetTexture sets texture
-func SetTexture(stage uint8, sampler Uniform, texture Texture) {
+func SetTexture(stage uint8, sampler Uniform, texture *Texture) {
 	C.bgfx_set_texture(C.uint8_t(stage), sampler.h, texture.h, C.UINT32_MAX)
 }
