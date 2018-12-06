@@ -2,6 +2,7 @@ package bgfx
 
 /*
 #cgo CFLAGS: -I./include/
+#cgo linux LDFLAGS: -L./lib/linux64_gcc/
 #cgo darwin LDFLAGS: -L./lib/osx64_clang/
 #cgo darwin LDFLAGS: -framework Cocoa -framework QuartzCore -framework Metal
 #cgo LDFLAGS: -lstdc++ -lbgfxDebug -lbxDebug -lbimgDebug
