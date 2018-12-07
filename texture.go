@@ -21,7 +21,7 @@ func NewTexture2D(width, height int, hasMips bool, numLayers int, format Texture
 		C._Bool(hasMips),
 		C.ushort(numLayers),
 		C.bgfx_texture_format_t(format),
-		C.ulonglong(flags),
+		C.uint64_t(flags),
 		mem,
 	)
 	return &Texture{h: h}
