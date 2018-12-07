@@ -5,7 +5,7 @@ package bgfx
 #cgo linux LDFLAGS: -L./lib/linux64_gcc/
 #cgo darwin LDFLAGS: -L./lib/osx64_clang/
 #cgo darwin LDFLAGS: -framework Cocoa -framework QuartzCore -framework Metal
-#cgo LDFLAGS: -lstdc++ -lbgfxDebug -lbxDebug -lbimgDebug
+#cgo LDFLAGS: -lstdc++ -lbgfxDebug -lbxDebug -lbimgDebug -lbxDebug -lstdc++ -ldl
 
 #include <bgfx/c99/bgfx.h>
 #include <bgfx/c99/platform.h>
