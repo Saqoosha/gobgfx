@@ -8,6 +8,7 @@ package bgfx
 #cgo LDFLAGS: -lstdc++ -lbgfxDebug -lbxDebug -lbimgDebug
 
 #include <bgfx/c99/bgfx.h>
+#include <bgfx/c99/platform.h>
 
 void bgfx_dbg_text_print(uint16_t _x, uint16_t _y, uint8_t _attr, const char* text) {
 	bgfx_dbg_text_printf(_x, _y, _attr, text);
@@ -30,6 +31,11 @@ type Config struct {
 	Format                          TextureFormat
 	Width, Height, Reset            uint32
 	NumBackBuffers, MaxFrameLatency uint8
+}
+
+// RenderFrame renders frame
+func RenderFrame(msecs int) {
+	C.bgfx_render_frame(C.int32_t(msecs))
 }
 
 // Init bgfx
@@ -73,7 +79,6 @@ func Frame(capture bool) uint32 {
 // SetDebug bgfx
 func SetDebug(flags DebugFlag) {
 	C.bgfx_set_debug(C.uint(flags))
-
 }
 
 // DebugTextClear clears debug text
