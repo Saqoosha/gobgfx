@@ -62,13 +62,13 @@ type VertexBuffer struct {
 }
 
 // NewVertexBuffer creates vertex buffer
-func NewVertexBuffer(slice interface{}, decl VertexDecl) VertexBuffer {
+func NewVertexBuffer(slice interface{}, decl VertexDecl) *VertexBuffer {
 	val := reflect.ValueOf(slice)
 	if val.Kind() != reflect.Slice {
 		panic(errors.New("bgfx: expected slice"))
 	}
 	size := uintptr(val.Len()) * val.Type().Elem().Size()
-	return VertexBuffer{
+	return &VertexBuffer{
 		h: C.bgfx_create_vertex_buffer(
 			// to keep things simple for now, we'll just copy
 			C.bgfx_copy(unsafe.Pointer(val.Pointer()), C.uint32_t(size)),
@@ -147,8 +147,8 @@ type IndexBuffer struct {
 }
 
 // NewIndexBuffer creates index buffer
-func NewIndexBuffer(data []uint16) IndexBuffer {
-	return IndexBuffer{
+func NewIndexBuffer(data []uint16) *IndexBuffer {
+	return &IndexBuffer{
 		h: C.bgfx_create_index_buffer(
 			// to keep things simple for now, we'll just copy
 			C.bgfx_copy(unsafe.Pointer(&data[0]), C.uint32_t(len(data)*2)),
