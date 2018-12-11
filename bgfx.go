@@ -141,6 +141,6 @@ func SetState(state State) {
 }
 
 // Submit bgfx
-func Submit(id ViewID, program Program, depth int32, preserveState bool) {
+func Submit(id ViewID, program *Program, depth int32, preserveState bool) {
 	C.bgfx_submit(C.ushort(id), program.h, C.uint32_t(depth), C._Bool(preserveState))
 }

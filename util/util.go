@@ -17,22 +17,22 @@ import (
 )
 
 // LoadProgram loads vertex and fragment shader and compiles it to actual shader program.
-func LoadProgram(vspath, fspath string) bgfx.Program {
+func LoadProgram(vspath, fspath string) *bgfx.Program {
 	data, err := ioutil.ReadFile(vspath)
 	if err != nil {
 		log.Printf("error: %+v", err)
-		return bgfx.Program{}
+		return nil
 	}
-	vs := bgfx.CreateShader(data)
+	vs := bgfx.NewShader(data)
 
 	data, err = ioutil.ReadFile(fspath)
 	if err != nil {
 		log.Printf("error: %+v", err)
-		return bgfx.Program{}
+		return nil
 	}
-	fs := bgfx.CreateShader(data)
+	fs := bgfx.NewShader(data)
 
-	return bgfx.CreateProgram(vs, fs, true)
+	return bgfx.NewProgram(vs, fs, true)
 }
 
 // LoadTexture loads texture from a image file
