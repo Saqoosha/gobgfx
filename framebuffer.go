@@ -20,7 +20,7 @@ func NewFrameBuffer(width, height int, format TextureFormat, flags TextureFlag) 
 		C.ushort(width),
 		C.ushort(height),
 		C.bgfx_texture_format_t(format),
-		C.ulong(flags))
+		C.uint64_t(flags))
 	return &FrameBuffer{h: h}
 }
 
