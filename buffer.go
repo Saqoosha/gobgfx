@@ -94,8 +94,8 @@ type DynamicVertexBuffer struct {
 }
 
 // NewDynamicVertexBuffer creates emmpty dynamic vertex buffer
-func NewDynamicVertexBuffer(num int, decl VertexDecl) DynamicVertexBuffer {
-	return DynamicVertexBuffer{
+func NewDynamicVertexBuffer(num int, decl VertexDecl) *DynamicVertexBuffer {
+	return &DynamicVertexBuffer{
 		h: C.bgfx_create_dynamic_vertex_buffer(
 			C.uint32_t(num),
 			&decl.decl,
@@ -105,13 +105,13 @@ func NewDynamicVertexBuffer(num int, decl VertexDecl) DynamicVertexBuffer {
 }
 
 // NewDynamicVertexBufferMem creates dynamic vertex buffer and initialize it.
-func NewDynamicVertexBufferMem(mem interface{}, decl VertexDecl) DynamicVertexBuffer {
+func NewDynamicVertexBufferMem(mem interface{}, decl VertexDecl) *DynamicVertexBuffer {
 	val := reflect.ValueOf(mem)
 	if val.Kind() != reflect.Slice {
 		panic(errors.New("bgfx: expected slice"))
 	}
 	size := uintptr(val.Len()) * val.Type().Elem().Size()
-	return DynamicVertexBuffer{
+	return &DynamicVertexBuffer{
 		h: C.bgfx_create_dynamic_vertex_buffer_mem(
 			// to keep things simple for now, we'll just copy
 			C.bgfx_copy(unsafe.Pointer(val.Pointer()), C.uint32_t(size)),
