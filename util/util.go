@@ -14,7 +14,7 @@ import (
 	"os"
 
 	"github.com/Saqoosha/gobgfx"
-	"github.com/gobuffalo/packr"
+	"github.com/gobuffalo/packr/v2"
 )
 
 // LoadProgramFromFile loads vertex and fragment shader and compiles it to actual shader program.
@@ -38,7 +38,6 @@ func LoadProgramFromFile(vspath, fspath string) *bgfx.Program {
 
 // LoadProgram loads embedded vertex and fragment shader by using packr and compiles it to actual shader program.
 func LoadProgram(box *packr.Box, vsPath, fsPath string) *bgfx.Program {
-	// box := packr.NewBox(boxName)
 	data, err := box.Find(vsPath)
 	if err != nil {
 		log.Printf("error: %+v", err)
