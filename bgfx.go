@@ -3,12 +3,11 @@ package bgfx
 /*
 #cgo CFLAGS: -I./include/
 #cgo linux LDFLAGS: -L./lib/linux64_gcc/
-#cgo darwin LDFLAGS: -L./lib/osx64_clang/
+#cgo darwin LDFLAGS: -L./lib/osx64_clang/Debug/
 #cgo darwin LDFLAGS: -framework Cocoa -framework QuartzCore -framework Metal
-#cgo LDFLAGS: -lstdc++ -lbgfxDebug -lbxDebug -lbimgDebug -lbxDebug -lstdc++ -ldl
+#cgo LDFLAGS: -lstdc++ -lbgfx -lbx -lbimg -lbx -lstdc++ -ldl
 
 #include <bgfx/c99/bgfx.h>
-#include <bgfx/c99/platform.h>
 
 void bgfx_dbg_text_print(uint16_t _x, uint16_t _y, uint8_t _attr, const char* text) {
 	bgfx_dbg_text_printf(_x, _y, _attr, text);

@@ -16,6 +16,7 @@ const (
 	RendererTypeDirect3D12            = C.BGFX_RENDERER_TYPE_DIRECT3D12
 	RendererTypeGNM                   = C.BGFX_RENDERER_TYPE_GNM
 	RendererTypeMetal                 = C.BGFX_RENDERER_TYPE_METAL
+	RendererTypeNVN                   = C.BGFX_RENDERER_TYPE_NVN
 	RendererTypeOpenGLES              = C.BGFX_RENDERER_TYPE_OPENGLES
 	RendererTypeOpenGL                = C.BGFX_RENDERER_TYPE_OPENGL
 	RendererTypeVulkan                = C.BGFX_RENDERER_TYPE_VULKAN
@@ -89,12 +90,12 @@ const (
 	TextureFormatATC                    = C.BGFX_TEXTURE_FORMAT_ATC
 	TextureFormatATCE                   = C.BGFX_TEXTURE_FORMAT_ATCE
 	TextureFormatATCI                   = C.BGFX_TEXTURE_FORMAT_ATCI
-	TextureFormatASTC4x4                = C.BGFX_TEXTURE_FORMAT_ASTC4x4
-	TextureFormatASTC5x5                = C.BGFX_TEXTURE_FORMAT_ASTC5x5
-	TextureFormatASTC6x6                = C.BGFX_TEXTURE_FORMAT_ASTC6x6
-	TextureFormatASTC8x5                = C.BGFX_TEXTURE_FORMAT_ASTC8x5
-	TextureFormatASTC8x6                = C.BGFX_TEXTURE_FORMAT_ASTC8x6
-	TextureFormatASTC10x5               = C.BGFX_TEXTURE_FORMAT_ASTC10x5
+	TextureFormatASTC4x4                = C.BGFX_TEXTURE_FORMAT_ASTC4X4
+	TextureFormatASTC5x5                = C.BGFX_TEXTURE_FORMAT_ASTC5X5
+	TextureFormatASTC6x6                = C.BGFX_TEXTURE_FORMAT_ASTC6X6
+	TextureFormatASTC8x5                = C.BGFX_TEXTURE_FORMAT_ASTC8X5
+	TextureFormatASTC8x6                = C.BGFX_TEXTURE_FORMAT_ASTC8X6
+	TextureFormatASTC10x5               = C.BGFX_TEXTURE_FORMAT_ASTC10X5
 
 	TextureFormatUnknown = C.BGFX_TEXTURE_FORMAT_UNKNOWN
 
@@ -148,7 +149,7 @@ const (
 	TextureFormatRGB10A2  = C.BGFX_TEXTURE_FORMAT_RGB10A2
 	TextureFormatRG11B10F = C.BGFX_TEXTURE_FORMAT_RG11B10F
 
-	TextureFormatUnknownDepth = C.BGFX_TEXTURE_FORMAT_UNKNOWN_DEPTH
+	TextureFormatUnknownDepth = C.BGFX_TEXTURE_FORMAT_UNKNOWNDEPTH
 
 	TextureFormatD16   = C.BGFX_TEXTURE_FORMAT_D16
 	TextureFormatD24   = C.BGFX_TEXTURE_FORMAT_D24
@@ -167,12 +168,11 @@ type UniformType uint32
 
 // UniformType constants
 const (
-	UniformTypeInt1 UniformType = C.BGFX_UNIFORM_TYPE_INT1
-	UniformTypeEnd              = C.BGFX_UNIFORM_TYPE_END
-
-	UniformTypeVec4 = C.BGFX_UNIFORM_TYPE_VEC4
-	UniformTypeMat3 = C.BGFX_UNIFORM_TYPE_MAT3
-	UniformTypeMat4 = C.BGFX_UNIFORM_TYPE_MAT4
+	UniformTypeSampler UniformType = C.BGFX_UNIFORM_TYPE_SAMPLER
+	UniformTypeEnd                 = C.BGFX_UNIFORM_TYPE_END
+	UniformTypeVec4                = C.BGFX_UNIFORM_TYPE_VEC4
+	UniformTypeMat3                = C.BGFX_UNIFORM_TYPE_MAT3
+	UniformTypeMat4                = C.BGFX_UNIFORM_TYPE_MAT4
 
 	UniformTypeCount = C.BGFX_UNIFORM_TYPE_COUNT
 )
