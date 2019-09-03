@@ -9,21 +9,21 @@ import (
 	"unsafe"
 )
 
-// VertexDecl bgfx_vertex_decl_t
-type VertexDecl struct {
-	decl C.bgfx_vertex_decl_t
+// VertexLayout bgfx_vertex_layout_t
+type VertexLayout struct {
+	layout C.bgfx_vertex_layout_t
 }
 
-// Begin vertex declaration
-func (v *VertexDecl) Begin() *VertexDecl {
-	C.bgfx_vertex_decl_begin(&v.decl, C.BGFX_RENDERER_TYPE_NOOP)
+// Begin vertex layout
+func (v *VertexLayout) Begin() *VertexLayout {
+	C.bgfx_vertex_layout_begin(&v.layout, C.BGFX_RENDERER_TYPE_NOOP)
 	return v
 }
 
-// Add vertex declaration
-func (v *VertexDecl) Add(attrib Attrib, num uint8, typ AttribType, normalized bool, asint bool) *VertexDecl {
-	C.bgfx_vertex_decl_add(
-		&v.decl,
+// Add vertex layout
+func (v *VertexLayout) Add(attrib Attrib, num uint8, typ AttribType, normalized bool, asint bool) *VertexLayout {
+	C.bgfx_vertex_layout_add(
+		&v.layout,
 		C.bgfx_attrib_t(attrib),
 		C.uint8_t(num),
 		C.bgfx_attrib_type_t(typ),
@@ -33,27 +33,27 @@ func (v *VertexDecl) Add(attrib Attrib, num uint8, typ AttribType, normalized bo
 	return v
 }
 
-// SetOffset of vertex declaration
-func (v *VertexDecl) SetOffset(attrib Attrib, offset uint) *VertexDecl {
-	v.decl.offset[attrib] = C.uint16_t(offset)
+// SetOffset of vertex layout
+func (v *VertexLayout) SetOffset(attrib Attrib, offset uint) *VertexLayout {
+	v.layout.offset[attrib] = C.uint16_t(offset)
 	return v
 }
 
-// Skip vertex declaration
-func (v *VertexDecl) Skip(num uint8) *VertexDecl {
-	C.bgfx_vertex_decl_skip(&v.decl, C.uint8_t(num))
+// Skip vertex layout
+func (v *VertexLayout) Skip(num uint8) *VertexLayout {
+	C.bgfx_vertex_layout_skip(&v.layout, C.uint8_t(num))
 	return v
 }
 
-// End vertex declaration
-func (v *VertexDecl) End() *VertexDecl {
-	C.bgfx_vertex_decl_end(&v.decl)
+// End vertex layout
+func (v *VertexLayout) End() *VertexLayout {
+	C.bgfx_vertex_layout_end(&v.layout)
 	return v
 }
 
-// Stride of vertex declaration
-func (v *VertexDecl) Stride() int {
-	return int(v.decl.stride)
+// Stride of vertex layout
+func (v *VertexLayout) Stride() int {
+	return int(v.layout.stride)
 }
 
 // VertexBuffer type
@@ -62,7 +62,7 @@ type VertexBuffer struct {
 }
 
 // NewVertexBuffer creates vertex buffer
-func NewVertexBuffer(slice interface{}, decl VertexDecl) *VertexBuffer {
+func NewVertexBuffer(slice interface{}, layout VertexLayout) *VertexBuffer {
 	val := reflect.ValueOf(slice)
 	if val.Kind() != reflect.Slice {
 		panic(errors.New("bgfx: expected slice"))
@@ -72,7 +72,7 @@ func NewVertexBuffer(slice interface{}, decl VertexDecl) *VertexBuffer {
 		h: C.bgfx_create_vertex_buffer(
 			// to keep things simple for now, we'll just copy
 			C.bgfx_copy(unsafe.Pointer(val.Pointer()), C.uint32_t(size)),
-			&decl.decl,
+			&layout.layout,
 			C.ushort(BufferNone),
 		),
 	}
@@ -94,18 +94,18 @@ type DynamicVertexBuffer struct {
 }
 
 // NewDynamicVertexBuffer creates emmpty dynamic vertex buffer
-func NewDynamicVertexBuffer(num int, decl VertexDecl) *DynamicVertexBuffer {
+func NewDynamicVertexBuffer(num int, layout VertexLayout) *DynamicVertexBuffer {
 	return &DynamicVertexBuffer{
 		h: C.bgfx_create_dynamic_vertex_buffer(
 			C.uint32_t(num),
-			&decl.decl,
+			&layout.layout,
 			C.ushort(BufferNone),
 		),
 	}
 }
 
 // NewDynamicVertexBufferMem creates dynamic vertex buffer and initialize it.
-func NewDynamicVertexBufferMem(mem interface{}, decl VertexDecl) *DynamicVertexBuffer {
+func NewDynamicVertexBufferMem(mem interface{}, layout VertexLayout) *DynamicVertexBuffer {
 	val := reflect.ValueOf(mem)
 	if val.Kind() != reflect.Slice {
 		panic(errors.New("bgfx: expected slice"))
@@ -115,7 +115,7 @@ func NewDynamicVertexBufferMem(mem interface{}, decl VertexDecl) *DynamicVertexB
 		h: C.bgfx_create_dynamic_vertex_buffer_mem(
 			// to keep things simple for now, we'll just copy
 			C.bgfx_copy(unsafe.Pointer(val.Pointer()), C.uint32_t(size)),
-			&decl.decl,
+			&layout.layout,
 			C.ushort(BufferNone),
 		),
 	}
